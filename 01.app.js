@@ -1,8 +1,8 @@
-const express =require('express');
+const express = require('express');
 const app = express();
 const path = require('path');
 const moment = require('moment');
-const {mysql, connection} = require('./modules/mysql-conn');
+const { mysql, connection } = require('./modules/mysql-conn');
 
 const bookRouter = require('./routes/book-route');
 
@@ -12,13 +12,13 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 app.locals.pretty = true;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false })); // 포스트 방식 구현 가능 
+
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/book', bookRouter);
-
-app.get('/book/save', (req, res) => {
-	res.send('/book/save');
-});
 
 app.use((req, res) => {
 	res.send('/404');
 })
+
